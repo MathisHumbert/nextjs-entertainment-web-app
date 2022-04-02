@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// http://localhost:3000/api/movies
+// http://localhost:3000/api/home
 
 import { data } from '../../data';
 

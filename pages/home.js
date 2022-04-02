@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import styled from 'styled-components';
 
 import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
+import TrendingMovieCard from '../components/TrendingMovieCard';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [recommendedMovies, setRecommendedMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('/api/movies');
-      const data = await response.json();
-      setTrendingMovies(data.trendingMovies);
-      setRecommendedMovies(data.recommendedMovies);
+      setIsLoading(true);
+      setIsError(false);
+      try {
+        const response = await fetch('/api/home');
+        const data = await response.json();
+
+        setTrendingMovies(data.trendingMovies);
+        setRecommendedMovies(data.recommendedMovies);
+        setIsLoading(false);
+      } catch (error) {
+        setIsError(true);
+      }
     };
 
     fetchData();
@@ -29,9 +41,18 @@ const Home = () => {
 
       <div>
         <Navbar />
-        <main>
-          <SearchInput />
-        </main>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <div>Something went wrong</div>
+        ) : (
+          <section>
+            <SearchInput />
+            {trendingMovies.map((movie) => (
+              <TrendingMovieCard key={movie.title} {...movie} />
+            ))}
+          </section>
+        )}
       </div>
     </div>
   );
