@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
 import TrendingMovieCard from '../components/TrendingMovieCard';
+import BasicMovieCard from '../components/BasicMovieCard';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -46,12 +47,18 @@ const Home = () => {
         ) : isError ? (
           <div>Something went wrong</div>
         ) : (
-          <section>
+          <main>
             <SearchInput />
-            {trendingMovies.map((movie) => (
+            {/* {trendingMovies.map((movie) => (
               <TrendingMovieCard key={movie.title} {...movie} />
-            ))}
-          </section>
+            ))} */}
+            <section>
+              <h1>Recommended for you</h1>
+              {recommendedMovies.map((movie) => (
+                <BasicMovieCard key={movie.title} {...movie} />
+              ))}
+            </section>
+          </main>
         )}
       </div>
     </div>
