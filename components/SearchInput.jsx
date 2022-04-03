@@ -6,6 +6,7 @@ const SearchInput = () => {
   return (
     <Wrapper>
       <SearchIcon />
+      {/* heading m */}
       <input type='text' placeholder='Search for movies or TV series' />
     </Wrapper>
   );

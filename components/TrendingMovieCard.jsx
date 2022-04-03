@@ -3,9 +3,10 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 import { smallTrendingImages, largeTrendingImages } from '../assets';
+import MovieInfos from './MovieInfos';
+import BookmarkButton from './BookmarkButton';
 
-const TrendingMovieCard = ({ title, thumbnail, year, category, rating }) => {
-  console.log(title, smallTrendingImages[title]);
+const TrendingMovieCard = ({ title, year, category, rating }) => {
   return (
     <Wrapper>
       <div className='img-container'>
@@ -14,17 +15,27 @@ const TrendingMovieCard = ({ title, thumbnail, year, category, rating }) => {
           alt={title}
           layout='intrinsic'
         />
+        <div className='infos-container'>
+          <MovieInfos
+            year={year}
+            category={category}
+            rating={rating}
+            title={title}
+          />
+        </div>
+        <BookmarkButton />
       </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.article`
-  min-width: 240px;
-  min-height: 140px;
+  width: 100%;
+  height: 140px;
   position: relative;
   border-radius: 8px;
   overflow: hidden;
+
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.0001) 0%,
@@ -35,6 +46,12 @@ const Wrapper = styled.article`
     width: 100%;
     height: 100%;
     position: absolute;
+  }
+
+  .infos-container {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
   }
 `;
 

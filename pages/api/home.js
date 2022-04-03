@@ -9,7 +9,7 @@ export default function handler(req, res) {
 
   data.forEach((item) => {
     if (item.isTrending) trendingMovies.push(item);
-    recommendedMovies.push(item);
+    else recommendedMovies.push(item);
   });
 
   res.status(200).json({ trendingMovies, recommendedMovies });

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 
-import BookmarkButton from '../../components/BookmarkButton';
-import { smallRegularImages } from '..';
+import BookmarkButton from './BookmarkButton';
+import { smallRegularImages } from '../assets';
 
 const BasicMovieImage = ({ title, isBookmark, setIsBookmark }) => {
   return (

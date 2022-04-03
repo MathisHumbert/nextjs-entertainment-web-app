@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import CategoryTvSeriesIcon from './CategorytvSeriesIcon';
-import CategoryMovieIcon from './CategoryMovieIcon';
+import CategoryTvSeriesIcon from '../assets/icons/CategorytvSeriesIcon';
+import CategoryMovieIcon from '../assets/icons/CategoryMovieIcon';
 
 const MovieInfos = ({ year, category, rating, title }) => {
   return (
@@ -21,7 +21,7 @@ const MovieInfos = ({ year, category, rating, title }) => {
         <span className='dot'></span>
         <p>{rating}</p>
       </div>
-      <h1 className='title'>{title}</h1>
+      <h4 className='title'>{title}</h4>
     </Wrapper>
   );
 };
@@ -40,9 +40,6 @@ const Wrapper = styled.div`
   }
 
   p {
-    font-size: 11px;
-    font-weight: 300;
-    line-height: 13.86px;
     color: rgba(255, 255, 255, 0.75);
   }
 
@@ -51,14 +48,6 @@ const Wrapper = styled.div`
     height: 2px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.5);
-  }
-
-  h1 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 18px;
-    color: #fff;
-    margin-top: 4px;
   }
 `;
 

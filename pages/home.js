@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import styled from 'styled-components';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
 import TrendingMovieCard from '../components/TrendingMovieCard';
 import BasicMovieCard from '../components/BasicMovieCard';
+
+import {
+  BasicMovieContainer,
+  BasicSection,
+  MainContainer,
+} from '../styles/components';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -47,18 +54,31 @@ const Home = () => {
         ) : isError ? (
           <div>Something went wrong</div>
         ) : (
-          <main>
+          <MainContainer>
             <SearchInput />
-            {/* {trendingMovies.map((movie) => (
-              <TrendingMovieCard key={movie.title} {...movie} />
-            ))} */}
-            <section>
-              <h1>Recommended for you</h1>
-              {recommendedMovies.map((movie) => (
-                <BasicMovieCard key={movie.title} {...movie} />
-              ))}
-            </section>
-          </main>
+            <BasicSection>
+              <h2>Trending</h2>
+              <Swiper
+                slidesPerView={1}
+                pagination={{ clickable: true }}
+                style={{ marginTop: 24 }}
+              >
+                {trendingMovies.map((movie) => (
+                  <SwiperSlide key={movie.title}>
+                    <TrendingMovieCard {...movie} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </BasicSection>
+            <BasicSection>
+              <h2>Recommended for you</h2>
+              <BasicMovieContainer>
+                {recommendedMovies.map((movie) => (
+                  <BasicMovieCard key={movie.title} {...movie} />
+                ))}
+              </BasicMovieContainer>
+            </BasicSection>
+          </MainContainer>
         )}
       </div>
     </div>

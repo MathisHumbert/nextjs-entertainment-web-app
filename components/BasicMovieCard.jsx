@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import BasicMovieImage from '../assets/icons/BasicMovieImage';
-import MovieInfos from '../assets/icons/MovieInfos';
+import BasicMovieImage from './BasicMovieImage';
+import MovieInfos from './MovieInfos';
 
 const BasicMovieCard = ({ title, year, category, rating, isBookmarked }) => {
   const [isBookmark, setIsBookmark] = useState(isBookmarked);
