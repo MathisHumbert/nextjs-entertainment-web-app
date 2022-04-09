@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import EmptyBookmarkIcon from '../assets/icons/EmptyBookmarkIcon';
-import FullBookmarkIcon from '../assets/icons/FullBookmarkIcon';
+import EmptyBookmarkIcon from '../../assets/icons/EmptyBookmarkIcon';
+import FullBookmarkIcon from '../../assets/icons/FullBookmarkIcon';
 
 const BookmarkButton = ({ isBookmark, setIsBookmark }) => {
   return (

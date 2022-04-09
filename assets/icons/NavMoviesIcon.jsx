@@ -10,8 +10,11 @@ const SvgComponent = (props) => (
   </svg>
 );
 
-const NavMovies = styled(SvgComponent)`
-  cursor: ${(p) => (p.pointer || p.nopointer ? 'pointer' : 'default')};
+const NavMoviesIcon = styled(SvgComponent)`
+  cursor: pointer;
+  path {
+    fill: ${(p) => (p.isActive ? '#FFF' : '#5A698F')};
+  }
 `;
 
-export default NavMovies;
+export default NavMoviesIcon;

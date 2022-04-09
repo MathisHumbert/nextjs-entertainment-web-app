@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 import BookmarkButton from './BookmarkButton';
-import { smallRegularImages } from '../assets';
+import { smallRegularImages } from '../../assets';
 
 const BasicMovieImage = ({ title, isBookmark, setIsBookmark }) => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SearchIcon from '../assets/icons/SearchIcon';
+import SearchIcon from '../../assets/icons/SearchIcon';
 
 const SearchInput = () => {
   return (

@@ -13,7 +13,7 @@ const SvgComponent = (props) => (
 );
 
 const EmptyBookmarkIcon = styled(SvgComponent)`
-  cursor: ${(p) => (p.pointer ? 'pointer' : 'default')};
+  cursor: pointer;
 `;
 
 export default EmptyBookmarkIcon;

@@ -12,7 +12,7 @@ const SvgComponent = (props) => (
 );
 
 const CategoryTvSeriesIcon = styled(SvgComponent)`
-  cursor: ${(p) => (p.pointer ? 'pointer' : 'default')};
+  cursor: pointer;
 `;
 
 export default CategoryTvSeriesIcon;

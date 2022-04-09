@@ -11,7 +11,7 @@ const SvgComponent = (props) => (
 );
 
 const FullBookmarkIcon = styled(SvgComponent)`
-  cursor: ${(p) => (p.pointer ? 'pointer' : 'default')};
+  cursor: pointer;
 `;
 
 export default FullBookmarkIcon;

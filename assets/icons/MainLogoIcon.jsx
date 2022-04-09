@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const SvgComponent = (props) => (
   <svg
@@ -15,12 +15,7 @@ const SvgComponent = (props) => (
   </svg>
 );
 
-const MainLogo = styled(SvgComponent)`
-  cursor: ${(p) => (p.pointer || p.nopointer ? 'pointer' : 'default')};
-  &:hover {
-    path: {
-      color: ${(p) => p.hoverColor};
-    }
-  }
+const MainLogoIcon = styled(SvgComponent)`
+  cursor: pointer;
 `;
-export default MainLogo;
+export default MainLogoIcon;

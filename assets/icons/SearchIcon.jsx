@@ -11,7 +11,7 @@ const SvgComponent = (props) => (
 );
 
 const SearchIcon = styled(SvgComponent)`
-  cursor: ${(p) => (p.pointer || p.nopointer ? 'pointer' : 'default')};
+  cursor: pointer;
 `;
 
 export default SearchIcon;

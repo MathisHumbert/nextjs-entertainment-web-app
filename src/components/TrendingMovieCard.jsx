@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { smallTrendingImages, largeTrendingImages } from '../assets';
+import { smallTrendingImages, largeTrendingImages } from '../../assets';
 import MovieInfos from './MovieInfos';
 import BookmarkButton from './BookmarkButton';
 
