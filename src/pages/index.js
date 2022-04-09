@@ -43,20 +43,24 @@ const Home = () => {
                 style={{ marginTop: 24 }}
               >
                 {data &&
-                  data.trendingMovies.map((movie) => (
-                    <SwiperSlide key={movie.title}>
-                      <TrendingMovieCard {...movie} />
-                    </SwiperSlide>
-                  ))}
+                  data
+                    .filter((movie) => movie.isTrending === true)
+                    .map((movie) => (
+                      <SwiperSlide key={movie.title}>
+                        <TrendingMovieCard {...movie} />
+                      </SwiperSlide>
+                    ))}
               </Swiper>
             </BasicSection>
             <BasicSection>
               <h2>Recommended for you</h2>
               <BasicMovieContainer>
                 {data &&
-                  data.recommendedMovies.map((movie) => (
-                    <BasicMovieCard key={movie.title} {...movie} />
-                  ))}
+                  data
+                    .filter((movie) => movie.isTrending === false)
+                    .map((movie) => (
+                      <BasicMovieCard key={movie.title} {...movie} />
+                    ))}
               </BasicMovieContainer>
             </BasicSection>
           </MainContainer>

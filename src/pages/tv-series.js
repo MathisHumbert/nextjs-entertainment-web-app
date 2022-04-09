@@ -35,9 +35,11 @@ const TvSeries = () => {
               <h2>TV Series</h2>
               <BasicMovieContainer>
                 {data &&
-                  data.map((movie) => (
-                    <BasicMovieCard key={movie.title} {...movie} />
-                  ))}
+                  data
+                    .filter((movie) => movie.category === 'TV Series')
+                    .map((movie) => (
+                      <BasicMovieCard key={movie.title} {...movie} />
+                    ))}
               </BasicMovieContainer>
             </BasicSection>
           </MainContainer>

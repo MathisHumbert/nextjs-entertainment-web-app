@@ -35,18 +35,30 @@ const Bookmarked = () => {
               <h2>Bookmarked Movies</h2>
               <BasicMovieContainer>
                 {data &&
-                  data.bookmarkedMovies.map((movie) => (
-                    <BasicMovieCard key={movie.title} {...movie} />
-                  ))}
+                  data
+                    .filter(
+                      (movie) =>
+                        movie.isBookmarked === true &&
+                        movie.category === 'Movie'
+                    )
+                    .map((movie) => (
+                      <BasicMovieCard key={movie.title} {...movie} />
+                    ))}
               </BasicMovieContainer>
             </BasicSection>
             <BasicSection>
               <h2>Bookmarked TV Series</h2>
               <BasicMovieContainer>
                 {data &&
-                  data.bookmarkedTvSeries.map((movie) => (
-                    <BasicMovieCard key={movie.title} {...movie} />
-                  ))}
+                  data
+                    .filter(
+                      (movie) =>
+                        movie.isBookmarked === true &&
+                        movie.category === 'TV Series'
+                    )
+                    .map((movie) => (
+                      <BasicMovieCard key={movie.title} {...movie} />
+                    ))}
               </BasicMovieContainer>
             </BasicSection>
           </MainContainer>

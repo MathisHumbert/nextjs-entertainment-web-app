@@ -19,7 +19,7 @@ const Navbar = () => {
     <Wrapper>
       <MainLogoIcon />
       <div className='icons-container'>
-        <Link href='/home'>
+        <Link href='/'>
           <NavHomeIcon isActive={url === 'home'} />
         </Link>
         <Link href='/movies'>
