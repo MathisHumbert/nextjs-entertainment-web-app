@@ -7,13 +7,9 @@ import { useAppContext } from '../context/appContext';
 import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
 import TrendingMovieCard from '../components/TrendingMovieCard';
-import BasicMovieCard from '../components/BasicMovieCard';
+import MoviesList from '../components/MoviesList';
 
-import {
-  BasicMovieContainer,
-  BasicSection,
-  MainContainer,
-} from '../styles/components';
+import { BasicSection, MainContainer } from '../styles/components';
 
 const Home = () => {
   const { data, isLoading, isError } = useAppContext();
@@ -26,7 +22,7 @@ const Home = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div>
+      <main>
         <Navbar />
         {isLoading ? (
           <div>Loading...</div>
@@ -52,20 +48,13 @@ const Home = () => {
                     ))}
               </Swiper>
             </BasicSection>
-            <BasicSection>
-              <h2>Recommended for you</h2>
-              <BasicMovieContainer>
-                {data &&
-                  data
-                    .filter((movie) => movie.isTrending === false)
-                    .map((movie) => (
-                      <BasicMovieCard key={movie.title} {...movie} />
-                    ))}
-              </BasicMovieContainer>
-            </BasicSection>
+            <MoviesList
+              data={data.filter((movie) => movie.isTrending === false)}
+              title='Recommended for you'
+            />
           </MainContainer>
         )}
-      </div>
+      </main>
     </>
   );
 };

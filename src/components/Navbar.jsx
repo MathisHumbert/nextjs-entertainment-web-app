@@ -20,7 +20,7 @@ const Navbar = () => {
       <MainLogoIcon />
       <div className='icons-container'>
         <Link href='/'>
-          <NavHomeIcon isActive={url === 'home'} />
+          <NavHomeIcon isActive={url === ''} />
         </Link>
         <Link href='/movies'>
           <NavMoviesIcon isActive={url === 'movies'} />

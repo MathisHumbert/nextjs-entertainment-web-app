@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import EmptyBookmarkIcon from '../../assets/icons/EmptyBookmarkIcon';
 import FullBookmarkIcon from '../../assets/icons/FullBookmarkIcon';
 
-const BookmarkButton = ({ isBookmark, setIsBookmark }) => {
+const BookmarkButton = ({ isBookmarked, onClick }) => {
   return (
-    <Wrapper onClick={setIsBookmark}>
-      {isBookmark ? <FullBookmarkIcon /> : <EmptyBookmarkIcon />}
+    <Wrapper onClick={onClick}>
+      {isBookmarked ? <FullBookmarkIcon /> : <EmptyBookmarkIcon />}
     </Wrapper>
   );
 };

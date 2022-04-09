@@ -3,13 +3,9 @@ import Head from 'next/head';
 
 import { useAppContext } from '../context/appContext';
 import Navbar from '../components/Navbar';
-import {
-  BasicMovieContainer,
-  BasicSection,
-  MainContainer,
-} from '../styles/components';
 import SearchInput from '../components/SearchInput';
-import BasicMovieCard from '../components/BasicMovieCard';
+import MoviesList from '../components/MoviesList';
+import { MainContainer } from '../styles/components';
 
 const Bookmarked = () => {
   const { data, isLoading, isError } = useAppContext();
@@ -22,7 +18,7 @@ const Bookmarked = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div>
+      <main>
         <Navbar />
         {isLoading ? (
           <div>Loading...</div>
@@ -31,39 +27,24 @@ const Bookmarked = () => {
         ) : (
           <MainContainer>
             <SearchInput />
-            <BasicSection>
-              <h2>Bookmarked Movies</h2>
-              <BasicMovieContainer>
-                {data &&
-                  data
-                    .filter(
-                      (movie) =>
-                        movie.isBookmarked === true &&
-                        movie.category === 'Movie'
-                    )
-                    .map((movie) => (
-                      <BasicMovieCard key={movie.title} {...movie} />
-                    ))}
-              </BasicMovieContainer>
-            </BasicSection>
-            <BasicSection>
-              <h2>Bookmarked TV Series</h2>
-              <BasicMovieContainer>
-                {data &&
-                  data
-                    .filter(
-                      (movie) =>
-                        movie.isBookmarked === true &&
-                        movie.category === 'TV Series'
-                    )
-                    .map((movie) => (
-                      <BasicMovieCard key={movie.title} {...movie} />
-                    ))}
-              </BasicMovieContainer>
-            </BasicSection>
+            <MoviesList
+              data={data.filter(
+                (movie) =>
+                  movie.isBookmarked === true && movie.category === 'Movie'
+              )}
+              title='Bookmarked Movies'
+            />
+
+            <MoviesList
+              data={data.filter(
+                (movie) =>
+                  movie.isBookmarked === true && movie.category === 'TV Series'
+              )}
+              title='Bookmarked TV Series'
+            />
           </MainContainer>
         )}
-      </div>
+      </main>
     </>
   );
 };

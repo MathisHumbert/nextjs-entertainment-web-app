@@ -21,13 +21,17 @@ const AppProvider = ({ children }) => {
       setData(data.data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
       setIsError(true);
     }
   };
 
+  const updateData = (id) => {
+    const dataToUpdate = data.find((item) => item._id === id);
+    dataToUpdate.isBookmarked = !dataToUpdate.isBookmarked;
+  };
+
   return (
-    <AppContext.Provider value={{ data, isLoading, isError }}>
+    <AppContext.Provider value={{ data, isLoading, isError, updateData }}>
       {children}
     </AppContext.Provider>
   );

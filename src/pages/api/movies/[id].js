@@ -11,11 +11,8 @@ const handler = async (req, res) => {
     case 'PUT':
       try {
         const { isBookmarked } = req.body;
-        const movie = await Movie.findOneAndUpdate(
-          { _id: id },
-          { isBookmarked }
-        );
-        res.status(200).json({ sucess: true, data: movie });
+        await Movie.findOneAndUpdate({ _id: id }, { isBookmarked });
+        res.status(200).json({ sucess: true });
       } catch (error) {
         console.log(error);
         res.status(500).json({ sucess: false, error });

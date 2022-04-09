@@ -2,14 +2,10 @@ import React from 'react';
 import Head from 'next/head';
 
 import { useAppContext } from '../context/appContext';
-import Navbar from '../components/Navbar';
-import {
-  BasicMovieContainer,
-  BasicSection,
-  MainContainer,
-} from '../styles/components';
+import MoviesList from '../components/MoviesList';
 import SearchInput from '../components/SearchInput';
-import BasicMovieCard from '../components/BasicMovieCard';
+import Navbar from '../components/Navbar';
+import { MainContainer } from '../styles/components';
 
 const Movies = () => {
   const { data, isLoading, isError } = useAppContext();
@@ -22,7 +18,7 @@ const Movies = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div>
+      <main>
         <Navbar />
         {isLoading ? (
           <div>Loading...</div>
@@ -31,20 +27,13 @@ const Movies = () => {
         ) : (
           <MainContainer>
             <SearchInput />
-            <BasicSection>
-              <h2>Movies</h2>
-              <BasicMovieContainer>
-                {data &&
-                  data
-                    .filter((movie) => movie.category === 'Movie')
-                    .map((movie) => (
-                      <BasicMovieCard key={movie.title} {...movie} />
-                    ))}
-              </BasicMovieContainer>
-            </BasicSection>
+            <MoviesList
+              data={data.filter((movie) => movie.category === 'Movie')}
+              title='Movies'
+            />
           </MainContainer>
         )}
-      </div>
+      </main>
     </>
   );
 };

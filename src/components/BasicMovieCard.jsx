@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import BasicMovieImage from './BasicMovieImage';
 import MovieInfos from './MovieInfos';
 
-const BasicMovieCard = ({ title, year, category, rating, isBookmarked }) => {
-  const [isBookmark, setIsBookmark] = useState(isBookmarked);
-
+const BasicMovieCard = ({
+  title,
+  year,
+  category,
+  rating,
+  isBookmarked,
+  _id,
+}) => {
   return (
     <article>
-      <BasicMovieImage
-        title={title}
-        isBookmark={isBookmark}
-        setIsBookmark={() => setIsBookmark(!isBookmark)}
-      />
+      <BasicMovieImage title={title} id={_id} isBookmarked={isBookmarked} />
       <MovieInfos
         title={title}
         year={year}

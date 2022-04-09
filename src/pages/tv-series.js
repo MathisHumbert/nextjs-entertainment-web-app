@@ -3,13 +3,9 @@ import Head from 'next/head';
 
 import { useAppContext } from '../context/appContext';
 import Navbar from '../components/Navbar';
-import {
-  BasicMovieContainer,
-  BasicSection,
-  MainContainer,
-} from '../styles/components';
 import SearchInput from '../components/SearchInput';
-import BasicMovieCard from '../components/BasicMovieCard';
+import MoviesList from '../components/MoviesList';
+import { MainContainer } from '../styles/components';
 
 const TvSeries = () => {
   const { data, isLoading, isError } = useAppContext();
@@ -22,7 +18,7 @@ const TvSeries = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div>
+      <main>
         <Navbar />
         {isLoading ? (
           <div>Loading...</div>
@@ -31,20 +27,13 @@ const TvSeries = () => {
         ) : (
           <MainContainer>
             <SearchInput />
-            <BasicSection>
-              <h2>TV Series</h2>
-              <BasicMovieContainer>
-                {data &&
-                  data
-                    .filter((movie) => movie.category === 'TV Series')
-                    .map((movie) => (
-                      <BasicMovieCard key={movie.title} {...movie} />
-                    ))}
-              </BasicMovieContainer>
-            </BasicSection>
+            <MoviesList
+              data={data.filter((movie) => movie.category === 'TV Series')}
+              title='TV Series'
+            />
           </MainContainer>
         )}
-      </div>
+      </main>
     </>
   );
 };
