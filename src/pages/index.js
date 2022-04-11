@@ -1,18 +1,15 @@
 import React from 'react';
 import Head from 'next/head';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 
 import { useAppContext } from '../context/appContext';
 import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
-import TrendingMovieCard from '../components/TrendingMovieCard';
+import Slider from '../components/Slider';
 import MoviesList from '../components/MoviesList';
-
-import { BasicSection, MainContainer } from '../styles/components';
+import { MainContainer } from '../styles/components';
 
 const Home = () => {
-  const { data, isLoading, isError } = useAppContext();
+  const { data, isLoading, isError, inputValue } = useAppContext();
 
   return (
     <>
@@ -31,27 +28,22 @@ const Home = () => {
         ) : (
           <MainContainer>
             <SearchInput />
-            <BasicSection>
-              <h2>Trending</h2>
-              <Swiper
-                slidesPerView={1}
-                pagination={{ clickable: true }}
-                style={{ marginTop: 24 }}
-              >
-                {data &&
-                  data
-                    .filter((movie) => movie.isTrending === true)
-                    .map((movie) => (
-                      <SwiperSlide key={movie.title}>
-                        <TrendingMovieCard {...movie} />
-                      </SwiperSlide>
-                    ))}
-              </Swiper>
-            </BasicSection>
-            <MoviesList
-              data={data.filter((movie) => movie.isTrending === false)}
-              title='Recommended for you'
-            />
+            {inputValue ? (
+              <MoviesList
+                data={data}
+                title={`Found ${data.length > 0 ? data.length : 'no'} result${
+                  data.length > 1 ? 's' : ''
+                } for '${inputValue}'`}
+              />
+            ) : (
+              <>
+                <Slider data={data} />
+                <MoviesList
+                  data={data.filter((movie) => movie.isTrending === false)}
+                  title='Recommended for you'
+                />
+              </>
+            )}
           </MainContainer>
         )}
       </main>

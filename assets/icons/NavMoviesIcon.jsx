@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const SvgComponent = (props) => (
@@ -14,6 +14,11 @@ const NavMoviesIcon = styled(SvgComponent)`
   cursor: pointer;
   path {
     fill: ${(p) => (p.isActive ? '#FFF' : '#5A698F')};
+    transition: fill 0.3s linear;
+
+    &:hover {
+      fill: ${(p) => (p.isActive ? '#fff' : '#fc4747')};
+    }
   }
 `;
 

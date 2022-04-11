@@ -21,7 +21,7 @@ const MovieInfos = ({ year, category, rating, title }) => {
         <span className='dot'></span>
         <p>{rating}</p>
       </div>
-      <h4 className='title'>{title}</h4>
+      <h4>{title}</h4>
     </Wrapper>
   );
 };

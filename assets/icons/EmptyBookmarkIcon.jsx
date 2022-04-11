@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const SvgComponent = (props) => (
@@ -14,6 +14,11 @@ const SvgComponent = (props) => (
 
 const EmptyBookmarkIcon = styled(SvgComponent)`
   cursor: pointer;
+
+  path {
+    transition: stroke 0.3s linear;
+    stroke: ${(p) => (p.isActive ? '#10141E' : '#fff')};
+  }
 `;
 
 export default EmptyBookmarkIcon;
