@@ -16,6 +16,10 @@ body {
 }
 
 h1 {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 40.32px;
+  letter-spacing: -0.5px;
 }
 
 h2 {
@@ -46,13 +50,13 @@ p {
 input {
   background: transparent;
   border: 0;
-  font-size: 1rem;
-  width: 100%;
+  font-size: 15px;
   font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  line-height: 18.9px;
   color: #fff;
+  width: 100%;
   cursor: pointer;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s linear;
   caret-color: #fc4747;
 }
 
@@ -62,7 +66,6 @@ input::placeholder {
 
 input:focus {
   outline: none;
-  border-color: #5a698f;
 }
 
 .basic-movie-container {

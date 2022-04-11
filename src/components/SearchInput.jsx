@@ -23,5 +23,14 @@ const SearchInput = () => {
 const Wrapper = styled.form`
   display: flex;
   gap: 1rem;
+
+  input {
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s linear;
+  }
+
+  input:focus {
+    border-color: #5a698f;
+  }
 `;
 export default SearchInput;
