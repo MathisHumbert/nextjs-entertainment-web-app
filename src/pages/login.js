@@ -86,7 +86,6 @@ const Wrapper = styled.main`
   justify-content: center;
   min-height: 100vh;
   height: 100%;
-  border: 1px solid red;
 
   .container {
     display: flex;
@@ -102,6 +101,7 @@ const Wrapper = styled.main`
     background: #161d2f;
     padding: 24px;
     border-radius: 10px;
+    max-width: 400px;
   }
 
   .input-container {
@@ -115,11 +115,12 @@ const Wrapper = styled.main`
     border-bottom: 1px solid #5a698f;
     padding-left: 1rem;
     padding-bottom: 18px;
-    /* transition: border-color 0.3s linear; */
+    transition: border-color 0.3s linear;
   }
 
-  /* input:focus {
-  } */
+  input:focus {
+    border-color: #fff;
+  }
 
   footer {
     width: 100%;
@@ -136,14 +137,34 @@ const Wrapper = styled.main`
     border: 0;
     border-radius: 6px;
     padding: 14px;
+    cursor: pointer;
+    transition: all 0.3s linear;
+
+    &:hover {
+      background: #fff;
+      color: #161d2f;
+    }
   }
 
   h3 {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 19px;
     font-weight: 300;
   }
 
   span {
     color: #fc4747;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      gap: 72.4px;
+    }
+
+    form {
+      padding: 32px;
+    }
   }
 `;
 

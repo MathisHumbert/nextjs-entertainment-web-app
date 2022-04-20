@@ -5,10 +5,10 @@ import { useAppContext } from '../context/appContext';
 import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
 import MoviesList from '../components/MoviesList';
-import { MainContainer } from '../styles/components';
+import { MainContainer, SecondaryContainer } from '../styles/components';
 
 const Bookmarked = () => {
-  const { data, isLoading, isError } = useAppContext();
+  const { data, isLoading, isError, inputValue } = useAppContext();
 
   return (
     <>
@@ -18,35 +18,66 @@ const Bookmarked = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>
+      <MainContainer>
         <Navbar />
         {isLoading ? (
           <div>Loading...</div>
         ) : isError ? (
           <div>Something went wrong</div>
         ) : (
-          <MainContainer>
-            <SearchInput />
-            <MoviesList
-              data={data.filter(
-                (movie) =>
-                  movie.isBookmarked === true && movie.category === 'Movie'
-              )}
-              title='Bookmarked Movies'
-            />
-
-            <MoviesList
-              data={data.filter(
-                (movie) =>
-                  movie.isBookmarked === true && movie.category === 'TV Series'
-              )}
-              title='Bookmarked TV Series'
-            />
-          </MainContainer>
+          <SecondaryContainer>
+            <SearchInput placeholder={'Search for bookmarked shows'} />
+            {inputValue ? (
+              <MoviesList
+                data={data.filter((movie) => movie.isBookmarked === true)}
+                title={`Found ${data.length > 0 ? data.length : 'no'} result${
+                  data.length > 1 ? 's' : ''
+                } for '${inputValue}'`}
+              />
+            ) : (
+              <>
+                <MoviesList
+                  data={data.filter(
+                    (movie) =>
+                      movie.isBookmarked === true && movie.category === 'Movie'
+                  )}
+                  title='Bookmarked Movies'
+                />
+                <MoviesList
+                  data={data.filter(
+                    (movie) =>
+                      movie.isBookmarked === true &&
+                      movie.category === 'TV Series'
+                  )}
+                  title='Bookmarked TV Series'
+                />
+              </>
+            )}
+          </SecondaryContainer>
         )}
-      </main>
+      </MainContainer>
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const { db } = await connectToDatabase();
+  const serverData = await db.collection('movies').find().toArray();
+  console.log(serverData.length);
+
+  return {
+    props: {
+      serverData: serverData.map((item) => ({
+        _id: item._id.toString(),
+        title: item.title,
+        category: item.category,
+        isBookmarked: item.isBookmarked,
+        isTrending: item.isTrending,
+        rating: item.rating,
+        year: item.year,
+      })),
+    },
+  };
+}
 
 export default Bookmarked;

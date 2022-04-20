@@ -5,10 +5,11 @@ import { useAppContext } from '../context/appContext';
 import MoviesList from '../components/MoviesList';
 import SearchInput from '../components/SearchInput';
 import Navbar from '../components/Navbar';
-import { MainContainer } from '../styles/components';
+import { MainContainer, SecondaryContainer } from '../styles/components';
+import { connectToDatabase } from '../services/mongodb';
 
-const Movies = () => {
-  const { data, isLoading, isError } = useAppContext();
+const Movies = ({ serverData }) => {
+  const { data, inputValue } = useAppContext();
 
   return (
     <>
@@ -18,24 +19,46 @@ const Movies = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>
+      <MainContainer>
         <Navbar />
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : isError ? (
-          <div>Something went wrong</div>
-        ) : (
-          <MainContainer>
-            <SearchInput />
+        <SecondaryContainer>
+          <SearchInput placeholder={'Search for movies'} />
+          {inputValue ? (
             <MoviesList
               data={data.filter((movie) => movie.category === 'Movie')}
-              title='Movies'
+              title={`Found ${data.length > 0 ? data.length : 'no'} result${
+                data.length > 1 ? 's' : ''
+              } for '${inputValue}'`}
             />
-          </MainContainer>
-        )}
-      </main>
+          ) : (
+            <MoviesList data={serverData} title='Movies' />
+          )}
+        </SecondaryContainer>
+      </MainContainer>
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const { db } = await connectToDatabase();
+  const serverData = await db.collection('movies').find().toArray();
+  console.log(serverData.length);
+
+  return {
+    props: {
+      serverData: serverData
+        .filter((item) => item.category === 'Movie')
+        .map((item) => ({
+          _id: item._id.toString(),
+          title: item.title,
+          category: item.category,
+          isBookmarked: item.isBookmarked,
+          isTrending: item.isTrending,
+          rating: item.rating,
+          year: item.year,
+        })),
+    },
+  };
+}
 
 export default Movies;

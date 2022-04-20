@@ -27,6 +27,7 @@ const Wrapper = styled.section`
   }
 
   @media (min-width: 768px) {
+    margin-top: 33px;
     .container {
       grid-template-columns: repeat(3, minmax(220px, 1fr));
       gap: 24px 30px;
@@ -35,6 +36,7 @@ const Wrapper = styled.section`
 
   @media (min-width: 1440px) {
     .container {
+      margin-top: 32px;
       grid-template-columns: repeat(4, minmax(280px, 1fr));
     }
   }

@@ -58,5 +58,42 @@ const Wrapper = styled.nav`
     border: 1px solid #fff;
     border-radius: 50%;
   }
+
+  @media (min-width: 768px) {
+    height: 72px;
+    padding: 0 24px;
+    margin: 23px 25px 0;
+    border-radius: 10px;
+
+    .image-container {
+      width: 32px;
+      height: 32px;
+    }
+
+    .icons-container {
+      gap: 32px;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    padding: 32px 28px;
+    margin: 32px 0 32px 32px;
+    width: 96px;
+    height: 960px;
+    flex-direction: column;
+    position: relative;
+
+    .icons-container {
+      flex-direction: column;
+      position: absolute;
+      top: 136px;
+      gap: 40px;
+    }
+
+    .image-container {
+      width: 40px;
+      height: 40px;
+    }
+  }
 `;
 export default Navbar;

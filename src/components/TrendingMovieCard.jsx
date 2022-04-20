@@ -50,6 +50,7 @@ const TrendingMovieCard = ({
           category={category}
           rating={rating}
           title={title}
+          bigTitle={true}
         />
       </div>
     </Wrapper>
@@ -91,6 +92,11 @@ const Wrapper = styled.article`
   }
 
   @media (min-width: 768px) {
+    .infos-container {
+      bottom: 24px;
+      left: 24px;
+    }
+
     .img-container {
       max-height: 230px;
     }

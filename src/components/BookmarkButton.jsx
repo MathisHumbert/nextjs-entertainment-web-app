@@ -42,6 +42,11 @@ const Wrapper = styled.button`
   &:hover {
     background: #fff;
   }
+
+  @media (min-width: 768px) {
+    top: 16px;
+    right: 16px;
+  }
 `;
 
 export default BookmarkButton;

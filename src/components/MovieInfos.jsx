@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import CategoryTvSeriesIcon from '../../assets/icons/CategorytvSeriesIcon';
 import CategoryMovieIcon from '../../assets/icons/CategoryMovieIcon';
 
-const MovieInfos = ({ year, category, rating, title }) => {
+const MovieInfos = ({ year, category, rating, title, bigTitle }) => {
   return (
     <Wrapper>
       <div className='movie-infos-container'>
@@ -21,7 +21,7 @@ const MovieInfos = ({ year, category, rating, title }) => {
         <span className='dot'></span>
         <p>{rating}</p>
       </div>
-      <h4>{title}</h4>
+      {bigTitle ? <h3>{title}</h3> : <h4>{title}</h4>}
     </Wrapper>
   );
 };
@@ -36,6 +36,7 @@ const Wrapper = styled.div`
 
   .category-container {
     display: flex;
+    align-items: center;
     gap: 4px;
   }
 
@@ -48,6 +49,21 @@ const Wrapper = styled.div`
     height: 2px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.5);
+  }
+
+  @media (min-width: 768px) {
+    .movie-infos-container {
+      gap: 8px;
+    }
+
+    .category-container {
+      gap: 6px;
+    }
+
+    .dot {
+      width: 3px;
+      height: 3px;
+    }
   }
 `;
 

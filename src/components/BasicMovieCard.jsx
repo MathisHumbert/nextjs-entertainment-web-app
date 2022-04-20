@@ -19,6 +19,7 @@ const BasicMovieCard = ({
         year={year}
         category={category}
         rating={rating}
+        bigTitle={false}
       />
     </article>
   );

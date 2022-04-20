@@ -6,9 +6,10 @@ import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
 import Slider from '../components/Slider';
 import MoviesList from '../components/MoviesList';
-import { MainContainer } from '../styles/components';
+import { MainContainer, SecondaryContainer } from '../styles/components';
+import { connectToDatabase } from '../services/mongodb';
 
-const Home = () => {
+const Home = ({ serverData = [] }) => {
   const { data, isLoading, isError, inputValue } = useAppContext();
 
   return (
@@ -19,36 +20,60 @@ const Home = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>
+      <MainContainer>
         <Navbar />
         {isLoading ? (
           <div>Loading...</div>
         ) : isError ? (
           <div>Something went wrong</div>
         ) : (
-          <MainContainer>
-            <SearchInput />
-            {inputValue ? (
-              <MoviesList
-                data={data}
-                title={`Found ${data.length > 0 ? data.length : 'no'} result${
-                  data.length > 1 ? 's' : ''
-                } for '${inputValue}'`}
-              />
-            ) : (
-              <>
-                <Slider data={data} />
+          <SecondaryContainer>
+            <div>
+              <SearchInput placeholder={'Search for movies or TV series'} />
+              {inputValue ? (
                 <MoviesList
-                  data={data.filter((movie) => movie.isTrending === false)}
-                  title='Recommended for you'
+                  data={data}
+                  title={`Found ${data.length > 0 ? data.length : 'no'} result${
+                    data.length > 1 ? 's' : ''
+                  } for '${inputValue}'`}
                 />
-              </>
-            )}
-          </MainContainer>
+              ) : (
+                <>
+                  <Slider data={serverData} />
+                  <MoviesList
+                    data={serverData.filter(
+                      (movie) => movie.isTrending === false
+                    )}
+                    title='Recommended for you'
+                  />
+                </>
+              )}
+            </div>
+          </SecondaryContainer>
         )}
-      </main>
+      </MainContainer>
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const { db } = await connectToDatabase();
+  const serverData = await db.collection('movies').find().toArray();
+  console.log(serverData.length);
+
+  return {
+    props: {
+      serverData: serverData.map((item) => ({
+        _id: item._id.toString(),
+        title: item.title,
+        category: item.category,
+        isBookmarked: item.isBookmarked,
+        isTrending: item.isTrending,
+        rating: item.rating,
+        year: item.year,
+      })),
+    },
+  };
+}
 
 export default Home;

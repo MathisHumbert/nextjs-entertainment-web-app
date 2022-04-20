@@ -47,6 +47,31 @@ p {
   line-height: 14px;
 }
 
+@media screen and (min-width: 768px) {
+  h2 {
+    font-size: 2rem;
+    line-height: 40.32px;
+    letter-spacing: -0.5px;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30.24px;
+  }
+
+  h4 {
+    font-size: 18px;
+    line-height: 22.68px;
+  }
+
+  p {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 18.9px;
+  }
+}
+
 input {
   background: transparent;
   border: 0;

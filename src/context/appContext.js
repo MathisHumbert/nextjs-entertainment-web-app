@@ -9,24 +9,24 @@ const AppProvider = ({ children }) => {
   const [isError, setIsError] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    setIsError(false);
+  // const fetchData = async () => {
+  //   setIsLoading(true);
+  //   setIsError(false);
 
-    try {
-      const response = await fetch('/api/movies');
-      const data = await response.json();
-      setData(data.data);
-      setStockData(data.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsError(true);
-    }
-  };
+  //   try {
+  //     const response = await fetch('/api/movies');
+  //     const data = await response.json();
+  //     setData(data.data);
+  //     setStockData(data.data);
+  //     setIsLoading(false);
+  //   } catch (error) {
+  //     setIsError(true);
+  //   }
+  // };
 
   const updateData = (id, value) => {
     const index = data.findIndex((item) => item._id === id);

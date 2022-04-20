@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import SearchIcon from '../../assets/icons/SearchIcon';
 import { useAppContext } from '../context/appContext';
 
-const SearchInput = () => {
+const SearchInput = ({ placeholder }) => {
   const { filterData, inputValue } = useAppContext();
 
   return (
@@ -12,7 +12,7 @@ const SearchInput = () => {
       <SearchIcon />
       <input
         type='text'
-        placeholder='Search for movies or TV series'
+        placeholder={placeholder}
         value={inputValue}
         onChange={(e) => filterData(e.target.value)}
       />
@@ -23,6 +23,7 @@ const SearchInput = () => {
 const Wrapper = styled.form`
   display: flex;
   gap: 1rem;
+  align-items: center;
 
   input {
     border-bottom: 1px solid transparent;
@@ -31,6 +32,13 @@ const Wrapper = styled.form`
 
   input:focus {
     border-color: #5a698f;
+  }
+
+  @media (min-width: 768px) {
+    input {
+      font-size: 24px;
+      line-height: 30px;
+    }
   }
 `;
 export default SearchInput;
