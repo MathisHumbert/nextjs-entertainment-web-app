@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import axios from 'axios';
 
-import { useAppContext } from '../context/appContext';
 import BookmarkButton from './BookmarkButton';
 import {
   smallRegularImages,
@@ -13,20 +11,9 @@ import {
 import PlayButton from './PlayButton';
 
 const BasicMovieImage = ({ title, isBookmarked, id }) => {
-  const [isActive, setIsActive] = useState(isBookmarked);
-  const { updateData } = useAppContext();
-
-  const onClick = async () => {
-    await axios.put(`/api/movies/${id}`, {
-      isBookmarked: !isActive,
-    });
-    updateData(id, !isActive);
-    setIsActive(!isActive);
-  };
-
   return (
     <Wrapper>
-      <BookmarkButton isBookmarked={isActive} onClick={onClick} />
+      <BookmarkButton isBookmarked={isBookmarked} id={id} />
       <PlayButton />
       <div className='small-img-container'>
         <Image

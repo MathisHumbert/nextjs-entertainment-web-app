@@ -17,7 +17,7 @@ const EmptyBookmarkIcon = styled(SvgComponent)`
 
   path {
     transition: stroke 0.3s linear;
-    stroke: ${(p) => (p.isActive ? '#10141E' : '#fff')};
+    stroke: ${(p) => (p.hover ? '#10141E' : '#fff')};
   }
 `;
 

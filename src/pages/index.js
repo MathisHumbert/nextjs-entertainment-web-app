@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 
 import { useAppContext } from '../context/appContext';
@@ -10,7 +10,11 @@ import { MainContainer, SecondaryContainer } from '../styles/components';
 import { connectToDatabase } from '../services/mongodb';
 
 const Home = ({ serverData = [] }) => {
-  const { data, isLoading, isError, inputValue } = useAppContext();
+  const { data, inputValue, setDataOnMount } = useAppContext();
+
+  useEffect(() => {
+    setDataOnMount(serverData);
+  }, [serverData]);
 
   return (
     <>
@@ -22,35 +26,30 @@ const Home = ({ serverData = [] }) => {
 
       <MainContainer>
         <Navbar />
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : isError ? (
-          <div>Something went wrong</div>
-        ) : (
-          <SecondaryContainer>
-            <div>
-              <SearchInput placeholder={'Search for movies or TV series'} />
-              {inputValue ? (
+
+        <SecondaryContainer>
+          <div>
+            <SearchInput placeholder={'Search for movies or TV series'} />
+            {inputValue ? (
+              <MoviesList
+                data={data}
+                title={`Found ${data.length > 0 ? data.length : 'no'} result${
+                  data.length > 1 ? 's' : ''
+                } for '${inputValue}'`}
+              />
+            ) : (
+              <>
+                <Slider data={serverData} />
                 <MoviesList
-                  data={data}
-                  title={`Found ${data.length > 0 ? data.length : 'no'} result${
-                    data.length > 1 ? 's' : ''
-                  } for '${inputValue}'`}
+                  data={serverData.filter(
+                    (movie) => movie.isTrending === false
+                  )}
+                  title='Recommended for you'
                 />
-              ) : (
-                <>
-                  <Slider data={serverData} />
-                  <MoviesList
-                    data={serverData.filter(
-                      (movie) => movie.isTrending === false
-                    )}
-                    title='Recommended for you'
-                  />
-                </>
-              )}
-            </div>
-          </SecondaryContainer>
-        )}
+              </>
+            )}
+          </div>
+        </SecondaryContainer>
       </MainContainer>
     </>
   );
@@ -59,7 +58,6 @@ const Home = ({ serverData = [] }) => {
 export async function getServerSideProps(context) {
   const { db } = await connectToDatabase();
   const serverData = await db.collection('movies').find().toArray();
-  console.log(serverData.length);
 
   return {
     props: {

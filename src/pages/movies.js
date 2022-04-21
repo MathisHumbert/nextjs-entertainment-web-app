@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 
 import { useAppContext } from '../context/appContext';
@@ -9,7 +9,11 @@ import { MainContainer, SecondaryContainer } from '../styles/components';
 import { connectToDatabase } from '../services/mongodb';
 
 const Movies = ({ serverData }) => {
-  const { data, inputValue } = useAppContext();
+  const { data, inputValue, setDataOnMount } = useAppContext();
+
+  useEffect(() => {
+    setDataOnMount(serverData);
+  }, [serverData]);
 
   return (
     <>
@@ -25,7 +29,7 @@ const Movies = ({ serverData }) => {
           <SearchInput placeholder={'Search for movies'} />
           {inputValue ? (
             <MoviesList
-              data={data.filter((movie) => movie.category === 'Movie')}
+              data={data}
               title={`Found ${data.length > 0 ? data.length : 'no'} result${
                 data.length > 1 ? 's' : ''
               } for '${inputValue}'`}
@@ -42,7 +46,6 @@ const Movies = ({ serverData }) => {
 export async function getServerSideProps(context) {
   const { db } = await connectToDatabase();
   const serverData = await db.collection('movies').find().toArray();
-  console.log(serverData.length);
 
   return {
     props: {

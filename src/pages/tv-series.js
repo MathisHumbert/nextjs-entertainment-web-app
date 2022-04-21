@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 
 import { useAppContext } from '../context/appContext';
@@ -6,9 +6,14 @@ import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
 import MoviesList from '../components/MoviesList';
 import { MainContainer, SecondaryContainer } from '../styles/components';
+import { connectToDatabase } from '../services/mongodb';
 
-const TvSeries = () => {
-  const { data, isLoading, isError, inputValue } = useAppContext();
+const TvSeries = ({ serverData }) => {
+  const { data, inputValue, setDataOnMount } = useAppContext();
+
+  useEffect(() => {
+    setDataOnMount(serverData);
+  }, [serverData]);
 
   return (
     <>
@@ -20,28 +25,20 @@ const TvSeries = () => {
 
       <MainContainer>
         <Navbar />
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : isError ? (
-          <div>Something went wrong</div>
-        ) : (
-          <SecondaryContainer>
-            <SearchInput placeholder={'Search for TV series'} />
-            {inputValue ? (
-              <MoviesList
-                data={data.filter((movie) => movie.category === 'TV Series')}
-                title={`Found ${data.length > 0 ? data.length : 'no'} result${
-                  data.length > 1 ? 's' : ''
-                } for '${inputValue}'`}
-              />
-            ) : (
-              <MoviesList
-                data={data.filter((movie) => movie.category === 'TV Series')}
-                title='TV Series'
-              />
-            )}
-          </SecondaryContainer>
-        )}
+
+        <SecondaryContainer>
+          <SearchInput placeholder={'Search for TV series'} />
+          {inputValue ? (
+            <MoviesList
+              data={data}
+              title={`Found ${data.length > 0 ? data.length : 'no'} result${
+                data.length > 1 ? 's' : ''
+              } for '${inputValue}'`}
+            />
+          ) : (
+            <MoviesList data={serverData} title='TV Series' />
+          )}
+        </SecondaryContainer>
       </MainContainer>
     </>
   );
@@ -50,19 +47,20 @@ const TvSeries = () => {
 export async function getServerSideProps(context) {
   const { db } = await connectToDatabase();
   const serverData = await db.collection('movies').find().toArray();
-  console.log(serverData.length);
 
   return {
     props: {
-      serverData: serverData.map((item) => ({
-        _id: item._id.toString(),
-        title: item.title,
-        category: item.category,
-        isBookmarked: item.isBookmarked,
-        isTrending: item.isTrending,
-        rating: item.rating,
-        year: item.year,
-      })),
+      serverData: serverData
+        .filter((item) => item.category === 'TV Series')
+        .map((item) => ({
+          _id: item._id.toString(),
+          title: item.title,
+          category: item.category,
+          isBookmarked: item.isBookmarked,
+          isTrending: item.isTrending,
+          rating: item.rating,
+          year: item.year,
+        })),
     },
   };
 }

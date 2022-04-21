@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 
 import { useAppContext } from '../context/appContext';
@@ -6,9 +6,14 @@ import Navbar from '../components/Navbar';
 import SearchInput from '../components/SearchInput';
 import MoviesList from '../components/MoviesList';
 import { MainContainer, SecondaryContainer } from '../styles/components';
+import { connectToDatabase } from '../services/mongodb';
 
-const Bookmarked = () => {
-  const { data, isLoading, isError, inputValue } = useAppContext();
+const Bookmarked = ({ serverData }) => {
+  const { data, inputValue, setDataOnMount } = useAppContext();
+
+  useEffect(() => {
+    setDataOnMount(serverData);
+  }, [serverData]);
 
   return (
     <>
@@ -20,41 +25,30 @@ const Bookmarked = () => {
 
       <MainContainer>
         <Navbar />
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : isError ? (
-          <div>Something went wrong</div>
-        ) : (
-          <SecondaryContainer>
-            <SearchInput placeholder={'Search for bookmarked shows'} />
-            {inputValue ? (
+        <SecondaryContainer>
+          <SearchInput placeholder={'Search for bookmarked shows'} />
+          {inputValue ? (
+            <MoviesList
+              data={data}
+              title={`Found ${data.length > 0 ? data.length : 'no'} result${
+                data.length > 1 ? 's' : ''
+              } for '${inputValue}'`}
+            />
+          ) : (
+            <>
               <MoviesList
-                data={data.filter((movie) => movie.isBookmarked === true)}
-                title={`Found ${data.length > 0 ? data.length : 'no'} result${
-                  data.length > 1 ? 's' : ''
-                } for '${inputValue}'`}
+                data={serverData.filter((movie) => movie.category === 'Movie')}
+                title='Bookmarked Movies'
               />
-            ) : (
-              <>
-                <MoviesList
-                  data={data.filter(
-                    (movie) =>
-                      movie.isBookmarked === true && movie.category === 'Movie'
-                  )}
-                  title='Bookmarked Movies'
-                />
-                <MoviesList
-                  data={data.filter(
-                    (movie) =>
-                      movie.isBookmarked === true &&
-                      movie.category === 'TV Series'
-                  )}
-                  title='Bookmarked TV Series'
-                />
-              </>
-            )}
-          </SecondaryContainer>
-        )}
+              <MoviesList
+                data={serverData.filter(
+                  (movie) => movie.category === 'TV Series'
+                )}
+                title='Bookmarked TV Series'
+              />
+            </>
+          )}
+        </SecondaryContainer>
       </MainContainer>
     </>
   );
@@ -63,19 +57,20 @@ const Bookmarked = () => {
 export async function getServerSideProps(context) {
   const { db } = await connectToDatabase();
   const serverData = await db.collection('movies').find().toArray();
-  console.log(serverData.length);
 
   return {
     props: {
-      serverData: serverData.map((item) => ({
-        _id: item._id.toString(),
-        title: item.title,
-        category: item.category,
-        isBookmarked: item.isBookmarked,
-        isTrending: item.isTrending,
-        rating: item.rating,
-        year: item.year,
-      })),
+      serverData: serverData
+        .filter((item) => item.isBookmarked === true)
+        .map((item) => ({
+          _id: item._id.toString(),
+          title: item.title,
+          category: item.category,
+          isBookmarked: item.isBookmarked,
+          isTrending: item.isTrending,
+          rating: item.rating,
+          year: item.year,
+        })),
     },
   };
 }

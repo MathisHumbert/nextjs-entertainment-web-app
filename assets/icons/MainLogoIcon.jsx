@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SvgComponent = (props) => {
-  console.log(props);
-
   return (
     <svg
       width='2em'

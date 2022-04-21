@@ -5,28 +5,21 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [stockData, setStockData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [fetchData, setFetchData] = useState([]);
+  const [triggerFetch, setTriggerFetch] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    console.log('fetch new data');
+    // if(triggerFetch){
+    // }
 
-  // const fetchData = async () => {
-  //   setIsLoading(true);
-  //   setIsError(false);
-
-  //   try {
-  //     const response = await fetch('/api/movies');
-  //     const data = await response.json();
-  //     setData(data.data);
-  //     setStockData(data.data);
-  //     setIsLoading(false);
-  //   } catch (error) {
-  //     setIsError(true);
-  //   }
-  // };
+    // fetch
+    // setFetchData(data)
+    // check si fetchData est empty ou non
+    // setTriggerFetch(false)
+    // a utiliser seulement dans bookmarked
+  }, [triggerFetch]);
 
   const updateData = (id, value) => {
     const index = data.findIndex((item) => item._id === id);
@@ -40,9 +33,14 @@ const AppProvider = ({ children }) => {
     setData(newData);
   };
 
+  const setDataOnMount = (serverData) => {
+    setData(serverData);
+    setStockData(serverData);
+  };
+
   return (
     <AppContext.Provider
-      value={{ data, isLoading, isError, updateData, filterData, inputValue }}
+      value={{ data, updateData, filterData, inputValue, setDataOnMount }}
     >
       {children}
     </AppContext.Provider>

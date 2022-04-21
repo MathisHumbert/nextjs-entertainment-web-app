@@ -1,22 +1,34 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
+import { useAppContext } from '../context/appContext';
 import EmptyBookmarkIcon from '../../assets/icons/EmptyBookmarkIcon';
 import FullBookmarkIcon from '../../assets/icons/FullBookmarkIcon';
 
-const BookmarkButton = ({ isBookmarked, onClick }) => {
-  const [isActive, setIsActive] = useState(false);
+const BookmarkButton = ({ isBookmarked, id }) => {
+  const [isActive, setIsActive] = useState(isBookmarked);
+  const [hover, setHover] = useState(false);
+  const { updateData } = useAppContext();
+
+  const onClick = async () => {
+    await axios.put(`/api/movies/${id}`, {
+      isBookmarked: !isActive,
+    });
+    updateData(id, !isActive);
+    setIsActive(!isActive);
+  };
 
   return (
     <Wrapper
       onClick={onClick}
-      onMouseEnter={() => setIsActive(true)}
-      onMouseLeave={() => setIsActive(false)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
-      {isBookmarked ? (
-        <FullBookmarkIcon isActive={isActive} />
+      {isActive ? (
+        <FullBookmarkIcon hover={hover} />
       ) : (
-        <EmptyBookmarkIcon isActive={isActive} />
+        <EmptyBookmarkIcon hover={hover} />
       )}
     </Wrapper>
   );

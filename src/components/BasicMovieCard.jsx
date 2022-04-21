@@ -9,11 +9,11 @@ const BasicMovieCard = ({
   category,
   rating,
   isBookmarked,
-  _id,
+  _id: id,
 }) => {
   return (
     <article>
-      <BasicMovieImage title={title} id={_id} isBookmarked={isBookmarked} />
+      <BasicMovieImage title={title} id={id} isBookmarked={isBookmarked} />
       <MovieInfos
         title={title}
         year={year}

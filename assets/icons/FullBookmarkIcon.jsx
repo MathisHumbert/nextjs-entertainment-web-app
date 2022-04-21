@@ -15,7 +15,7 @@ const FullBookmarkIcon = styled(SvgComponent)`
 
   path {
     transition: stroke 0.3s linear;
-    fill: ${(p) => (p.isActive ? '#10141E' : '#fff')};
+    fill: ${(p) => (p.hover ? '#10141E' : '#fff')};
   }
 `;
 

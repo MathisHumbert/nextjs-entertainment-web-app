@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
-import axios from 'axios';
 
-import { useAppContext } from '../context/appContext';
 import { smallTrendingImages, largeTrendingImages } from '../../assets';
 import MovieInfos from './MovieInfos';
 import BookmarkButton from './BookmarkButton';
@@ -16,20 +14,9 @@ const TrendingMovieCard = ({
   isBookmarked,
   _id: id,
 }) => {
-  const [isActive, setIsActive] = useState(isBookmarked);
-  const { updateData } = useAppContext();
-
-  const onClick = async () => {
-    await axios.put(`/api/movies/${id}`, {
-      isBookmarked: !isActive,
-    });
-    updateData(id, !isActive);
-    setIsActive(!isActive);
-  };
-
   return (
     <Wrapper>
-      <BookmarkButton isBookmarked={isActive} onClick={onClick} />
+      <BookmarkButton isBookmarked={isBookmarked} id={id} />
       <div className='small-img-container'>
         <Image
           src={smallTrendingImages[title]}
