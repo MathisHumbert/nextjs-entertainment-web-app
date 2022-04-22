@@ -9,7 +9,7 @@ import FullBookmarkIcon from '../../assets/icons/FullBookmarkIcon';
 const BookmarkButton = ({ isBookmarked, id }) => {
   const [isActive, setIsActive] = useState(isBookmarked);
   const [hover, setHover] = useState(false);
-  const { updateData } = useAppContext();
+  const { updateData, setTriggerFetch } = useAppContext();
 
   const onClick = async () => {
     await axios.put(`/api/movies/${id}`, {
@@ -17,6 +17,7 @@ const BookmarkButton = ({ isBookmarked, id }) => {
     });
     updateData(id, !isActive);
     setIsActive(!isActive);
+    setTriggerFetch(true);
   };
 
   return (

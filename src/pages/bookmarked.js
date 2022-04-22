@@ -9,7 +9,7 @@ import { MainContainer, SecondaryContainer } from '../styles/components';
 import { connectToDatabase } from '../services/mongodb';
 
 const Bookmarked = ({ serverData }) => {
-  const { data, inputValue, setDataOnMount } = useAppContext();
+  const { data, inputValue, setDataOnMount, fetchData } = useAppContext();
 
   useEffect(() => {
     setDataOnMount(serverData);
@@ -37,13 +37,29 @@ const Bookmarked = ({ serverData }) => {
           ) : (
             <>
               <MoviesList
-                data={serverData.filter((movie) => movie.category === 'Movie')}
+                data={
+                  fetchData.length
+                    ? fetchData.filter(
+                        (movie) =>
+                          movie.isBookmarked === true &&
+                          movie.category === 'Movie'
+                      )
+                    : serverData.filter((movie) => movie.category === 'Movie')
+                }
                 title='Bookmarked Movies'
               />
               <MoviesList
-                data={serverData.filter(
-                  (movie) => movie.category === 'TV Series'
-                )}
+                data={
+                  fetchData.length
+                    ? fetchData.filter(
+                        (movie) =>
+                          movie.isBookmarked === true &&
+                          movie.category === 'TV Series'
+                      )
+                    : serverData.filter(
+                        (movie) => movie.category === 'TV Series'
+                      )
+                }
                 title='Bookmarked TV Series'
               />
             </>

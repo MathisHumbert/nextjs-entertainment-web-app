@@ -24,15 +24,7 @@ const Wrapper = styled.form`
   display: flex;
   gap: 1rem;
   align-items: center;
-
-  input {
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s linear;
-  }
-
-  input:focus {
-    border-color: #5a698f;
-  }
+  position: relative;
 
   @media (min-width: 768px) {
     input {

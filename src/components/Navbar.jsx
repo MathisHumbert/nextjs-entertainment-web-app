@@ -17,19 +17,32 @@ const Navbar = () => {
 
   return (
     <Wrapper>
-      <MainLogoIcon />
+      <Link href='/' passHref>
+        <a>
+          <MainLogoIcon />
+        </a>
+      </Link>
+
       <div className='icons-container'>
-        <Link href='/'>
-          <NavHomeIcon isActive={url === ''} />
+        <Link href='/' passHref>
+          <a>
+            <NavHomeIcon isActive={url === ''} />
+          </a>
         </Link>
-        <Link href='/movies'>
-          <NavMoviesIcon isActive={url === 'movies'} />
+        <Link href='/movies' passHref>
+          <a>
+            <NavMoviesIcon isActive={url === 'movies'} />
+          </a>
         </Link>
-        <Link href='/tv-series'>
-          <NavTvSeriesIcon isActive={url === 'tv-series'} />
+        <Link href='/tv-series' passHref>
+          <a>
+            <NavTvSeriesIcon isActive={url === 'tv-series'} />
+          </a>
         </Link>
-        <Link href='/bookmarked'>
-          <NavBookmarkIcon isActive={url === 'bookmarked'} />
+        <Link href='/bookmarked' passHref>
+          <a>
+            <NavBookmarkIcon isActive={url === 'bookmarked'} />
+          </a>
         </Link>
       </div>
       <div className='image-container'>

@@ -10,15 +10,21 @@ const AppProvider = ({ children }) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    console.log('fetch new data');
-    // if(triggerFetch){
-    // }
+    if (triggerFetch) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch('/api/movies');
+          const { data } = await response.json();
+          setFetchData(data);
+          setStockData(data);
+          setTriggerFetch(false);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-    // fetch
-    // setFetchData(data)
-    // check si fetchData est empty ou non
-    // setTriggerFetch(false)
-    // a utiliser seulement dans bookmarked
+      fetchData();
+    }
   }, [triggerFetch]);
 
   const updateData = (id, value) => {
@@ -40,7 +46,15 @@ const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ data, updateData, filterData, inputValue, setDataOnMount }}
+      value={{
+        data,
+        updateData,
+        filterData,
+        inputValue,
+        setDataOnMount,
+        setTriggerFetch,
+        fetchData,
+      }}
     >
       {children}
     </AppContext.Provider>
