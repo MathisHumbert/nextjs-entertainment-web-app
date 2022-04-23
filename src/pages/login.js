@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 import styled from 'styled-components';
 
 import MainLogoIcon from '../../assets/icons/MainLogoIcon';
@@ -11,13 +13,42 @@ const Login = () => {
     password: '',
     confirmPassword: '',
   });
+  const router = useRouter();
 
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+
+    // checking for same password
+    // if (!email || !email.includes('@') || !password) {
+    //   alert('Invalid details');
+    //   return;
+    // }
+
+    if (isLoginDisplay) {
+      signIn('credentials', {
+        email: formValue.email,
+        password: formValue.password,
+        callbackUrl: '/',
+      });
+    } else {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formValue.email,
+          password: formValue.password,
+        }),
+      });
+
+      const data = await res.json();
+      router.push('/');
+    }
   };
 
   return (

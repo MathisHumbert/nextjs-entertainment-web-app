@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 import { useAppContext } from '../context/appContext';
 import Navbar from '../components/Navbar';
@@ -11,6 +13,10 @@ import { connectToDatabase } from '../services/mongodb';
 
 const Home = ({ serverData = [] }) => {
   const { data, inputValue, setDataOnMount } = useAppContext();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  console.log(session);
 
   useEffect(() => {
     setDataOnMount(serverData);
@@ -26,6 +32,11 @@ const Home = ({ serverData = [] }) => {
 
       <MainContainer>
         <Navbar />
+        {/* {session ? (
+          <button onClick={() => signOut()}>Log out</button>
+        ) : (
+          <button onClick={() => router.push('/api/auth/signin')}>Log out</button>
+        )} */}
 
         <SecondaryContainer>
           <div>
