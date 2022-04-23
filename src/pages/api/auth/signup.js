@@ -1,5 +1,6 @@
-import { connectToDatabase } from '../../../services/mongodb';
 import { hash } from 'bcryptjs';
+
+import { connectToDatabase } from '../../../services/mongodb';
 
 export async function handler(req, res) {
   if (req.method === 'POST') {

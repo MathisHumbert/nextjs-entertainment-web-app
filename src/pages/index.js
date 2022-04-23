@@ -41,6 +41,9 @@ const Home = ({ serverData = [] }) => {
         <SecondaryContainer>
           <div>
             <SearchInput placeholder={'Search for movies or TV series'} />
+            <button onClick={() => router.push('/api/auth/signin')}>
+              Log out
+            </button>
             {inputValue ? (
               <MoviesList
                 data={data}
