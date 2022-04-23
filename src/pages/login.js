@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react';
 import styled from 'styled-components';
 
 import { useAppContext } from '../context/appContext';
-import MainLogoIcon from '../../assets/icons/MainLogoIcon';
+import MainLogoIcon from '../../icons/MainLogoIcon';
 
 const Login = () => {
   const [isLoginDisplay, setIsLoginDisplay] = useState(true);
