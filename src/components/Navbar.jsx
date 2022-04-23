@@ -5,12 +5,12 @@ import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-import MainLogoIcon from '../../assets/icons/MainLogoIcon';
-import NavMoviesIcon from '../../assets/icons/NavMoviesIcon';
-import NavBookmarkIcon from '../../assets/icons/NavBookmarkIcon';
-import NavHomeIcon from '../../assets/icons/NavHomeIcon';
-import NavTvSeriesIcon from '../../assets/icons/NavTvSeriesIcon';
-import userImage from '../../assets/svg/image-avatar.png';
+import MainLogoIcon from '../../icons/MainLogoIcon';
+import NavMoviesIcon from '../../icons/NavMoviesIcon';
+import NavBookmarkIcon from '../../icons/NavBookmarkIcon';
+import NavHomeIcon from '../../icons/NavHomeIcon';
+import NavTvSeriesIcon from '../../icons/NavTvSeriesIcon';
+import userImage from '../../assets/user.png';
 
 const Navbar = () => {
   const { pathname } = useRouter();
@@ -27,22 +27,22 @@ const Navbar = () => {
       <div className='icons-container'>
         <Link href='/' passHref>
           <a>
-            <NavHomeIcon isActive={url === ''} />
+            <NavHomeIcon active={url === ''} />
           </a>
         </Link>
         <Link href='/movies' passHref>
           <a>
-            <NavMoviesIcon isActive={url === 'movies'} />
+            <NavMoviesIcon active={url === 'movies'} />
           </a>
         </Link>
         <Link href='/tv-series' passHref>
           <a>
-            <NavTvSeriesIcon isActive={url === 'tv-series'} />
+            <NavTvSeriesIcon active={url === 'tv-series'} />
           </a>
         </Link>
         <Link href='/bookmarked' passHref>
           <a>
-            <NavBookmarkIcon isActive={url === 'bookmarked'} />
+            <NavBookmarkIcon active={url === 'bookmarked'} />
           </a>
         </Link>
       </div>

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useSession } from 'next-auth/react';
 
 import { useAppContext } from '../context/appContext';
-import EmptyBookmarkIcon from '../../assets/icons/EmptyBookmarkIcon';
-import FullBookmarkIcon from '../../assets/icons/FullBookmarkIcon';
+import EmptyBookmarkIcon from '../../icons/EmptyBookmarkIcon';
+import FullBookmarkIcon from '../../icons/FullBookmarkIcon';
 
 const BookmarkButton = ({ id: bookmarkedId }) => {
   const { updateData, bookmarkedUser } = useAppContext();

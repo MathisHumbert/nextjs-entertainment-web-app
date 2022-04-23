@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import SearchIcon from '../../assets/icons/SearchIcon';
+import SearchIcon from '../../icons/SearchIcon';
 import { useAppContext } from '../context/appContext';
 
 const SearchInput = ({ placeholder }) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import PlayIcon from '../../assets/icons/PlayIcon';
+import PlayIcon from '../../icons/PlayIcon';
 
 const PlayButton = () => {
   return (
