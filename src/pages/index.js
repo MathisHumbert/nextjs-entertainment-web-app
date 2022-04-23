@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { ObjectId } from 'mongodb';
 
 import { useAppContext } from '../context/appContext';
@@ -14,7 +13,6 @@ import { connectToDatabase } from '../services/mongodb';
 
 const Home = ({ serverData = [], serverBookmarked = [] }) => {
   const { data, inputValue, setDataOnMount } = useAppContext();
-  const router = useRouter();
 
   useEffect(() => {
     setDataOnMount(serverData, serverBookmarked);
@@ -33,9 +31,6 @@ const Home = ({ serverData = [], serverBookmarked = [] }) => {
         <SecondaryContainer>
           <div>
             <SearchInput placeholder={'Search for movies or TV series'} />
-            {/* <button onClick={() => router.push('/api/auth/signin')}>
-              Log out
-            </button> */}
             {inputValue ? (
               <MoviesList
                 data={data}

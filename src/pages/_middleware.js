@@ -5,7 +5,7 @@ export default async function middleware(req) {
   if (req.nextUrl.pathname === '/') {
     const session = await getToken({
       req,
-      secret: 'test',
+      secret: process.env.JWT_SECRET,
     });
 
     if (!session) return NextResponse.redirect(new URL('/login', req.url));

@@ -24,7 +24,7 @@ export default NextAuth({
           .collection('users')
           .findOne({ email: credentials.email });
         if (!user) {
-          throw new Error('No user found with the email');
+          return null;
         }
 
         const checkPassword = await compare(
@@ -32,7 +32,7 @@ export default NextAuth({
           user.password
         );
         if (!checkPassword) {
-          throw new Error("Password doesn't match");
+          return null;
         }
 
         return {
@@ -56,7 +56,7 @@ export default NextAuth({
       return session;
     },
   },
-  secret: 'test',
+  secret: process.env.JWT_SECRET,
   pages: {
     signIn: '/login',
   },

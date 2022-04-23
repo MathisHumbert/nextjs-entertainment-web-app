@@ -71,6 +71,7 @@ const Wrapper = styled.nav`
     height: 24px;
     border: 1px solid #fff;
     border-radius: 50%;
+    cursor: pointer;
   }
 
   @media (min-width: 768px) {

@@ -128,14 +128,30 @@ const Login = () => {
               </h3>
             </button>
             <footer>
-              <h3>
-                {isLoginDisplay
-                  ? "Don't have an account?"
-                  : 'Login to your account'}
-              </h3>
-              <span onClick={() => setIsLoginDisplay(!isLoginDisplay)}>
-                {isLoginDisplay ? 'Sign Up' : 'Login'}
-              </span>
+              <div className='footer-container'>
+                <h3>
+                  {isLoginDisplay
+                    ? "Don't have an account?"
+                    : 'Login to your account'}
+                </h3>
+                <span onClick={() => setIsLoginDisplay(!isLoginDisplay)}>
+                  {isLoginDisplay ? 'Sign Up' : 'Login'}
+                </span>
+              </div>
+              <div className='footer-container'>
+                <h3 style={{ fontWeight: 700 }}>Access without login in</h3>
+                <span
+                  onClick={() =>
+                    signIn('credentials', {
+                      email: 'test@gmail.com',
+                      password: 'test',
+                      callbackUrl: '/',
+                    })
+                  }
+                >
+                  Click here
+                </span>
+              </div>
             </footer>
           </form>
         </div>
@@ -190,6 +206,13 @@ const Wrapper = styled.main`
   footer {
     width: 100%;
     margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 9px;
+  }
+
+  .footer-container {
     display: flex;
     justify-content: center;
     gap: 9px;
