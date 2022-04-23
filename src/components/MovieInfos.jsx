@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import CategoryTvSeriesIcon from '../../icons/CategorytvSeriesIcon';
+import CategoryTvSeriesIcon from '../../icons/CategoryTvSeriesIcon';
 import CategoryMovieIcon from '../../icons/CategoryMovieIcon';
 
 const MovieInfos = ({ year, category, rating, title, bigTitle }) => {
