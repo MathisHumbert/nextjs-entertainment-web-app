@@ -13,7 +13,7 @@ const BasicMovieCard = ({
 }) => {
   return (
     <article>
-      <BasicMovieImage title={title} id={id} isBookmarked={isBookmarked} />
+      <BasicMovieImage title={title} id={id} />
       <MovieInfos
         title={title}
         year={year}

@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -45,7 +46,7 @@ const Navbar = () => {
           </a>
         </Link>
       </div>
-      <div className='image-container'>
+      <div className='image-container' onClick={() => signOut()}>
         <Image src={userImage} alt='user' />
       </div>
     </Wrapper>

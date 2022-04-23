@@ -10,10 +10,10 @@ import {
 } from '../../assets';
 import PlayButton from './PlayButton';
 
-const BasicMovieImage = ({ title, isBookmarked, id }) => {
+const BasicMovieImage = ({ title, id }) => {
   return (
     <Wrapper>
-      <BookmarkButton isBookmarked={isBookmarked} id={id} />
+      <BookmarkButton id={id} />
       <PlayButton />
       <div className='small-img-container'>
         <Image

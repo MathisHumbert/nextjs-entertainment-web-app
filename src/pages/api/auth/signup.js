@@ -1,5 +1,4 @@
 import { hash } from 'bcryptjs';
-
 import { connectToDatabase } from '../../../services/mongodb';
 
 export async function handler(req, res) {
@@ -7,7 +6,7 @@ export async function handler(req, res) {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      res.status(422).json({ message: 'Invalid Data' });
+      res.status(422).json({ message: 'Invalid Data', success: false });
       return;
     }
 
@@ -17,16 +16,16 @@ export async function handler(req, res) {
       .collection('users')
       .findOne({ email: email });
     if (checkExisting) {
-      res.status(422).json({ message: 'User already exists' });
+      res.status(422).json({ message: 'User already exists', success: false });
       return;
     }
 
-    const user = await db.collection('users').insertOne({
+    await db.collection('users').insertOne({
       email,
       password: await hash(password, 12),
     });
 
-    res.status(201).json(user);
+    res.status(201).json({ success: true, message: 'User Created' });
   } else {
     res.status(500).json({ message: 'Route not valid' });
   }

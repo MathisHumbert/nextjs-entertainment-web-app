@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import { getSession } from 'next-auth/react';
 import Head from 'next/head';
-import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { ObjectId } from 'mongodb';
 
 import { useAppContext } from '../context/appContext';
 import Navbar from '../components/Navbar';
@@ -11,16 +12,13 @@ import MoviesList from '../components/MoviesList';
 import { MainContainer, SecondaryContainer } from '../styles/components';
 import { connectToDatabase } from '../services/mongodb';
 
-const Home = ({ serverData = [] }) => {
+const Home = ({ serverData = [], serverBookmarked = [] }) => {
   const { data, inputValue, setDataOnMount } = useAppContext();
-  const { data: session } = useSession();
   const router = useRouter();
 
-  console.log(session);
-
   useEffect(() => {
-    setDataOnMount(serverData);
-  }, [serverData]);
+    setDataOnMount(serverData, serverBookmarked);
+  }, []);
 
   return (
     <>
@@ -32,18 +30,12 @@ const Home = ({ serverData = [] }) => {
 
       <MainContainer>
         <Navbar />
-        {/* {session ? (
-          <button onClick={() => signOut()}>Log out</button>
-        ) : (
-          <button onClick={() => router.push('/api/auth/signin')}>Log out</button>
-        )} */}
-
         <SecondaryContainer>
           <div>
             <SearchInput placeholder={'Search for movies or TV series'} />
-            <button onClick={() => router.push('/api/auth/signin')}>
+            {/* <button onClick={() => router.push('/api/auth/signin')}>
               Log out
-            </button>
+            </button> */}
             {inputValue ? (
               <MoviesList
                 data={data}
@@ -70,8 +62,22 @@ const Home = ({ serverData = [] }) => {
 };
 
 export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login',
+      },
+    };
+  }
+
   const { db } = await connectToDatabase();
   const serverData = await db.collection('movies').find().toArray();
+  const serverBookmarked = await db
+    .collection('bookmarked')
+    .find({ userId: ObjectId(session.id) })
+    .toArray();
 
   return {
     props: {
@@ -84,6 +90,7 @@ export async function getServerSideProps(context) {
         rating: item.rating,
         year: item.year,
       })),
+      serverBookmarked: serverBookmarked.map((item) => item.movieId.toString()),
     },
   };
 }

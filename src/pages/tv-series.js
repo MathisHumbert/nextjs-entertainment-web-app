@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+import { getSession } from 'next-auth/react';
 import Head from 'next/head';
+import { ObjectId } from 'mongodb';
 
 import { useAppContext } from '../context/appContext';
 import Navbar from '../components/Navbar';
@@ -8,11 +10,11 @@ import MoviesList from '../components/MoviesList';
 import { MainContainer, SecondaryContainer } from '../styles/components';
 import { connectToDatabase } from '../services/mongodb';
 
-const TvSeries = ({ serverData }) => {
+const TvSeries = ({ serverData = [], serverBookmarked }) => {
   const { data, inputValue, setDataOnMount } = useAppContext();
 
   useEffect(() => {
-    setDataOnMount(serverData);
+    setDataOnMount(serverData, serverBookmarked);
   }, [serverData]);
 
   return (
@@ -45,8 +47,23 @@ const TvSeries = ({ serverData }) => {
 };
 
 export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login',
+      },
+    };
+  }
+
   const { db } = await connectToDatabase();
   const serverData = await db.collection('movies').find().toArray();
+  const serverBookmarked = await db
+    .collection('bookmarked')
+    .find({ userId: ObjectId(session.id) })
+    .toArray();
 
   return {
     props: {
@@ -61,6 +78,7 @@ export async function getServerSideProps(context) {
           rating: item.rating,
           year: item.year,
         })),
+      serverBookmarked: serverBookmarked.map((item) => item.movieId.toString()),
     },
   };
 }

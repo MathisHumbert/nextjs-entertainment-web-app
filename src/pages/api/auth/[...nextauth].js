@@ -35,7 +35,10 @@ export default NextAuth({
           throw new Error("Password doesn't match");
         }
 
-        return { email: user.email, id: user._id.toString() };
+        return {
+          email: user.email,
+          id: user._id.toString(),
+        };
       },
     }),
   ],
@@ -48,12 +51,12 @@ export default NextAuth({
     },
     session: ({ session, token }) => {
       if (token) {
-        console.log('token', token);
         session.id = token.id;
       }
       return session;
     },
   },
+  secret: 'test',
   pages: {
     signIn: '/login',
   },

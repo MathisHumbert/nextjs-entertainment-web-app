@@ -1,23 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 import { useAppContext } from '../context/appContext';
 import EmptyBookmarkIcon from '../../assets/icons/EmptyBookmarkIcon';
 import FullBookmarkIcon from '../../assets/icons/FullBookmarkIcon';
 
-const BookmarkButton = ({ isBookmarked, id }) => {
-  const [isActive, setIsActive] = useState(isBookmarked);
+const BookmarkButton = ({ id: bookmarkedId }) => {
+  const { updateData, bookmarkedUser } = useAppContext();
+  const [isActive, setIsActive] = useState(false);
   const [hover, setHover] = useState(false);
-  const { updateData, setTriggerFetch } = useAppContext();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    setIsActive(bookmarkedUser.includes(bookmarkedId));
+  }, [bookmarkedUser]);
 
   const onClick = async () => {
-    await axios.put(`/api/movies/${id}`, {
-      isBookmarked: !isActive,
+    await fetch(`/api/bookmarked/${bookmarkedId}`, {
+      method: isActive ? 'DELETE' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: session.id,
+      }),
     });
-    updateData(id, !isActive);
-    setIsActive(!isActive);
-    setTriggerFetch(true);
+
+    updateData(bookmarkedId, isActive);
   };
 
   return (

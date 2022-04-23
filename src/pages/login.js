@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import styled from 'styled-components';
 
+import { useAppContext } from '../context/appContext';
 import MainLogoIcon from '../../assets/icons/MainLogoIcon';
 
 const Login = () => {
@@ -13,7 +13,7 @@ const Login = () => {
     password: '',
     confirmPassword: '',
   });
-  const router = useRouter();
+  const { alertLogin, displayAlertLogin } = useAppContext();
 
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
@@ -23,18 +23,29 @@ const Login = () => {
     e.preventDefault();
 
     // checking for same password
-    // if (!email || !email.includes('@') || !password) {
-    //   alert('Invalid details');
-    //   return;
-    // }
 
-    if (isLoginDisplay) {
-      signIn('credentials', {
-        email: formValue.email,
-        password: formValue.password,
-        callbackUrl: '/',
+    if (
+      !formValue.email ||
+      !formValue.email.includes('@') ||
+      !formValue.password ||
+      (!isLoginDisplay && !formValue.confirmPassword)
+    ) {
+      displayAlertLogin({
+        message: 'Invalid data',
+        type: 'danger',
       });
-    } else {
+      return;
+    }
+
+    if (!isLoginDisplay && formValue.password !== formValue.confirmPassword) {
+      displayAlertLogin({
+        message: "Passwords don't match",
+        type: 'danger',
+      });
+      return;
+    }
+
+    if (!isLoginDisplay) {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -47,8 +58,25 @@ const Login = () => {
       });
 
       const data = await res.json();
-      router.push('/');
+
+      if (!data.success) {
+        displayAlertLogin({
+          message: data.message,
+          type: 'danger',
+        });
+        return;
+      }
     }
+
+    displayAlertLogin({
+      message: 'Redirecting...',
+      type: 'success',
+    });
+    signIn('credentials', {
+      email: formValue.email,
+      password: formValue.password,
+      callbackUrl: '/',
+    });
   };
 
   return (
@@ -64,6 +92,11 @@ const Login = () => {
           <MainLogoIcon />
           <form onSubmit={onSubmit}>
             <h1>{isLoginDisplay ? 'Login' : 'Sign Up'}</h1>
+            {!!alertLogin.message.length && (
+              <div className={`alert ${alertLogin.type}`}>
+                <p>{alertLogin.message}</p>
+              </div>
+            )}
             <div className='input-container'>
               <input
                 type='email'
@@ -133,6 +166,7 @@ const Wrapper = styled.main`
     padding: 24px;
     border-radius: 10px;
     max-width: 400px;
+    position: relative;
   }
 
   .input-container {
@@ -179,13 +213,36 @@ const Wrapper = styled.main`
 
   h3 {
     font-size: 15px;
-    font-weight: 500;
     line-height: 19px;
     font-weight: 300;
   }
 
   span {
     color: #fc4747;
+    cursor: pointer;
+  }
+
+  .alert {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    border-radius: 6px;
+    padding: 14px;
+
+    &.danger {
+      color: #fff;
+      background: #fc4747;
+    }
+
+    &.success {
+      background: #fff;
+      color: #161d2f;
+    }
+
+    p {
+      font-size: 15px;
+      font-weight: 300;
+    }
   }
 
   @media (min-width: 768px) {

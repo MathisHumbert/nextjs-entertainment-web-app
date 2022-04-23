@@ -6,31 +6,19 @@ const AppProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [stockData, setStockData] = useState([]);
   const [fetchData, setFetchData] = useState([]);
-  const [triggerFetch, setTriggerFetch] = useState(false);
+  const [bookmarkedUser, setBookmarkedUser] = useState([]);
   const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    if (triggerFetch) {
-      const fetchData = async () => {
-        try {
-          const response = await fetch('/api/movies');
-          const { data } = await response.json();
-          setFetchData(data);
-          setStockData(data);
-          setTriggerFetch(false);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      fetchData();
-    }
-  }, [triggerFetch]);
+  const [alertLogin, setAlertLogin] = useState({
+    message: '',
+    type: '',
+  });
 
   const updateData = (id, value) => {
-    const index = data.findIndex((item) => item._id === id);
-    data[index].isBookmarked = value;
-    stockData[index].isBookmarked = value;
+    if (value) {
+      setBookmarkedUser(bookmarkedUser.filter((item) => item !== id));
+    } else {
+      setBookmarkedUser([...bookmarkedUser, id]);
+    }
   };
 
   const filterData = (value) => {
@@ -39,9 +27,17 @@ const AppProvider = ({ children }) => {
     setData(newData);
   };
 
-  const setDataOnMount = (serverData) => {
+  const setDataOnMount = (serverData, bookmarked) => {
     setData(serverData);
     setStockData(serverData);
+    setBookmarkedUser(bookmarked);
+  };
+
+  const displayAlertLogin = ({ type, message }) => {
+    setAlertLogin({ message, type });
+    setTimeout(() => {
+      setAlertLogin({ message: '', type: '' });
+    }, 3000);
   };
 
   return (
@@ -52,8 +48,10 @@ const AppProvider = ({ children }) => {
         filterData,
         inputValue,
         setDataOnMount,
-        setTriggerFetch,
         fetchData,
+        alertLogin,
+        displayAlertLogin,
+        bookmarkedUser,
       }}
     >
       {children}
